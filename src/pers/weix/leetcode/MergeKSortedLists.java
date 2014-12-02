@@ -24,7 +24,7 @@ public class MergeKSortedLists {
 			ListNode root = new ListNode(0);
 			ListNode temp = root;
 			for (int i = 0; i < count; ++i) {
-				temp.next = new ListNode(exact(heap, tail--));
+				temp.next = new ListNode(exact(heap, --tail));
 				temp = temp.next;
 			}
 			return root.next;
@@ -52,20 +52,21 @@ public class MergeKSortedLists {
 				return -1;
 			}
 			int temp = heap[1];
-			heap[1] = heap[tail - 1];
+			heap[1] = heap[tail];
+			heap[tail] = 0;
 			int parent = 1;
 			while (true) {
-				if (parent < tail) {
+				if (parent >= tail) {
 					break;
 				}
 				int child = parent * 2;
-				if (child < tail) {
+				if (child >= tail) {
 					break;
 				}
 				if (child + 1 < tail && heap[child + 1] < heap[child]) {
 					++child;
 				}
-				if (heap[child] > heap[parent]) {
+				if (heap[child] < heap[parent]) {
 					swap(heap, parent, child);
 				}
 				parent = child;
